@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}{{ r.recommendation_id }} · Discharge Copilot{% endblock %}
+
+{% block content %}
+<p><a href="/">← Bed board</a></p>
+<h1>Discharge recommendation <span class="muted">{{ r.recommendation_id }}</span></h1>
+<div class="chips">
+  <span class="badge {{ 'stable' if r.source == 'ai' else 'improving' }}">{{ 'AI · ' ~ r.model if r.source == 'ai' else 'rules only' }}</span>
+  <span class="chip">for {{ r.incoming.patient_id }} {{ r.incoming.name }}</span>
+</div>
+
+<div class="rec-actions">
+  {% if r.decision == 'discharge' %}
+  {% set d = r.discharge %}
+  <form method="post" action="/ui/patients/{{ d.patient_id }}/discharge"
+        onsubmit='return confirm({{ ("Discharge " ~ d.patient_id ~ " " ~ d.name ~ " now?")|tojson }});'>
+    <input type="hidden" name="reason" value="{{ r.recommendation_id }}: {{ r.summary[:280] }}">
+    <input type="hidden" name="disposition" value="home">
+    <input type="hidden" name="clinician" value="{{ d.attending }}">
+    <input type="hidden" name="recommendation_id" value="{{ r.recommendation_id }}">
+    <button class="btn" type="submit">Accept: discharge {{ d.patient_id }} {{ d.name }}</button>
+  </form>
+  <a class="btn" href="/">Don't accept ({{ r.incoming.patient_id }} keeps waiting)</a>
+  {% else %}
+  <a class="btn" href="/">OK, keep {{ r.incoming.patient_id }} waiting</a>
+  {% endif %}
+</div>
+
+<pre class="rec">{{ text }}</pre>
+{% endblock %}

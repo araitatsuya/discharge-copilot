@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+{% block title %}Bed Board · Discharge Copilot{% endblock %}
+
+{% block actions %}
+<form method="post" action="/ui/reset"
+      onsubmit="return confirm('Reset demo? This wipes all admissions, discharges and the event log, then reloads data/.');">
+  <button class="btn danger" type="submit">Reset demo</button>
+</form>
+{% endblock %}
+
+{% block content %}
+{% if msg %}<div class="flash {{ kind }}">{{ msg }}</div>{% endif %}
+
+<section class="stats">
+  <div class="stat"><span class="label">Beds occupied</span><span class="value">{{ s.occupied }} / {{ s.total_beds }}</span></div>
+  <div class="stat"><span class="label">Occupancy</span><span class="value">{{ s.occupancy }}</span></div>
+  <div class="stat"><span class="label">Waiting for a bed</span><span class="value">{{ s.waiting|length }}</span></div>
+  <div class="stat"><span class="label">Discharged</span><span class="value">{{ s.discharged|length }}</span></div>
+  {% if s.is_full %}<div class="stat alert"><span class="label">Status</span><span class="value">Hospital full</span></div>{% endif %}
+</section>
+
+<h2>Beds</h2>
+<section class="beds">
+  {% for row in s.beds %}
+  {% set p = row.patient %}
+  <article class="bed {% if not p %}empty{% endif %}">
+    <header>
+      <span class="bed-id">{{ row.bed.bed_id }}</span>
+      {% for f in row.bed.features %}<span class="chip">{{ f }}</span>{% endfor %}
+    </header>
+    {% if p %}
+      <a class="name" href="/patients/{{ p.patient_id }}">{{ p.name }}</a>
+      <div class="muted small">{{ p.patient_id }} · {{ p.age_sex }} · LOS {{ p.los }}</div>
+      <div class="reason">{{ p.reason }}</div>
+      <div class="chips">
+        <span class="badge {{ p.stability }}">{{ p.stability }}</span>
+        {% if p.on_iv %}<span class="chip warn">IV therapy</span>{% endif %}
+        {% if p.oxygen not in ('room air', '—') %}<span class="chip warn">{{ p.oxygen }}</span>{% endif %}
+        {% if p.pending_results %}<span class="chip">{{ p.pending_results }} pending result{{ 's' if p.pending_results != 1 }}</span>{% endif %}
+        {% if p.has_draft %}<span class="chip ok">draft written</span>{% else %}<span class="chip">no draft</span>{% endif %}
+      </div>
+      <details class="discharge">
+        <summary>Discharge…</summary>
+        <form method="post" action="/ui/patients/{{ p.patient_id }}/discharge">
+          <input name="reason" placeholder="Reason (required)" required>
+          <select name="disposition">
+            <option value="home">home</option>
+            <option value="home_with_services">home with services</option>
+            <option value="skilled_nursing">skilled nursing</option>
+            <option value="transfer">transfer</option>
+          </select>
+          <input name="clinician" placeholder="Clinician" value="Dr. Samuel Reyes">
+          <button class="btn" type="submit">Confirm discharge</button>
+        </form>
+      </details>
+    {% else %}
+      <div class="empty-label">Available</div>
+    {% endif %}
+  </article>
+  {% endfor %}
+</section>
+
+<div class="two-col">
+  <section>
+    <h2>Waiting for a bed</h2>
+    {% if s.waiting %}
+    <table>
+      <thead><tr><th>#</th><th>Patient</th><th>ESI</th><th>Complaint</th><th>Waiting</th><th></th></tr></thead>
+      <tbody>
+      {% for w in s.waiting %}
+        <tr><td>{{ loop.index }}</td>
+            <td><a href="/patients/{{ w.patient_id }}">{{ w.name }}</a><div class="muted small">{{ w.patient_id }}</div></td>
+            <td><span class="esi esi{{ w.esi_level or 'x' }}">{{ w.esi_level or '—' }}</span></td>
+            <td>{{ w.complaint }}</td><td>{{ w.waiting }}</td>
+            <td>{% if s.is_full %}<form method="post" action="/ui/patients/{{ w.patient_id }}/recommendation"
+                      onsubmit="this.querySelector('button').disabled=true; this.querySelector('button').textContent='Asking…';">
+                <button class="btn" type="submit">Ask AI</button></form>{% endif %}</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    {% else %}<p class="muted">Nobody is waiting.</p>{% endif %}
+
+    <h2>Discharged</h2>
+    {% if s.discharged %}
+    <table>
+      <thead><tr><th>Patient</th><th>Bed</th><th>When</th><th>Bed went to</th></tr></thead>
+      <tbody>
+      {% for d in s.discharged %}
+        {% set enc = d.record.get('encounter') or {} %}
+        <tr><td><a href="/patients/{{ d.patient_id }}">{{ d.name }}</a><div class="muted small">{{ d.patient_id }} · {{ enc.get('disposition') or '—' }}</div></td>
+            <td>{{ d.bed_id or '—' }}</td>
+            <td>{{ d.discharged_at.strftime('%H:%M') if d.discharged_at else '—' }}</td>
+            <td>{{ enc.get('bed_released_for') or '—' }}</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    {% else %}<p class="muted">No discharges yet.</p>{% endif %}
+  </section>
+
+  <section>
+    <h2>Event log</h2>
+    {% if events %}
+    <ol class="events">
+      {% for e in events %}
+      <li>
+        <div><span class="ev-type {{ e.type }}">{{ e.type }}</span>
+             <span class="muted small">{{ e.event_id }} · {{ e.at.strftime('%H:%M:%S') }}</span></div>
+        <div>
+          {% if e.patient_id %}<a href="/patients/{{ e.patient_id }}">{{ e.patient_id }}</a>{% endif %}
+          {% if e.related_patient_id %} ↔ <a href="/patients/{{ e.related_patient_id }}">{{ e.related_patient_id }}</a>{% endif %}
+          {% if e.bed_id %} · bed {{ e.bed_id }}{% endif %}
+          {% if e.actor_name %} · by {{ e.actor_name }}{% endif %}
+        </div>
+        {% if e.reason %}<div class="muted small">{{ e.reason }}</div>{% endif %}
+      </li>
+      {% endfor %}
+    </ol>
+    {% else %}<p class="muted">No events yet.</p>{% endif %}
+  </section>
+</div>
+
+<script>
+  // Auto-refresh when something changes (e.g. a curl POST), unless you're typing in a form.
+  const seen = {{ latest_event_id }};
+  setInterval(async () => {
+    if (document.querySelector('details[open]') || document.activeElement?.matches('input, select')) return;
+    try {
+      const r = await fetch('/api/version');
+      const { latest_event_id } = await r.json();
+      if (latest_event_id !== seen) location.href = '/';
+    } catch (e) { /* server restarting; try again next tick */ }
+  }, 3000);
+</script>
+{% endblock %}

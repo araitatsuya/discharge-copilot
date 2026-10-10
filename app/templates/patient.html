@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% block title %}{{ p.name }} · Discharge Copilot{% endblock %}
+
+{% block actions %}<a class="btn" href="/api/patients/{{ p.patient_id }}">Raw JSON</a>{% endblock %}
+
+{% block content %}
+{% set demo = r.get('demographics') or {} %}
+{% set enc = r.get('encounter') or {} %}
+{% set cs = r.get('clinical_status') or {} %}
+{% set v = cs.get('last_vitals') or {} %}
+{% set pcp = r.get('pcp') %}
+{% set triage = r.get('triage') %}
+{% set draft = r.get('discharge_draft') %}
+<p><a href="/">← Bed board</a></p>
+<h1>{{ p.name }} <span class="muted">{{ p.patient_id }} · {{ r.get('mrn') or '—' }}</span></h1>
+<div class="chips">
+  <span class="badge status-{{ p.status }}">{{ p.status }}</span>
+  {% if p.bed_id %}<span class="chip">bed {{ p.bed_id }}</span>{% endif %}
+  <span class="badge {{ cs.get('stability') or 'unknown' }}">{{ cs.get('stability') or 'unknown' }}</span>
+  {% if cs.get('on_iv_therapy') %}<span class="chip warn">IV therapy</span>{% endif %}
+</div>
+
+<div class="grid">
+  <section class="card">
+    <h3>Patient</h3>
+    <dl>
+      <dt>Age / sex</dt><dd>{{ demo.get('age', '—') }} / {{ demo.get('sex', '—') }}</dd>
+      <dt>Language</dt><dd>{{ demo.get('preferred_language') or '—' }}</dd>
+      <dt>Lives alone</dt><dd>{{ {True: 'yes', False: 'no'}.get(demo.get('lives_alone'), '—') }}</dd>
+      <dt>PCP</dt><dd>{% if pcp %}{{ pcp.get('name') }}{% if pcp.get('clinic') %}, {{ pcp.get('clinic') }}{% endif %}{% else %}<span class="warn-text">none on file</span>{% endif %}</dd>
+    </dl>
+  </section>
+  <section class="card">
+    <h3>Encounter</h3>
+    <dl>
+      <dt>Reason</dt><dd>{{ enc.get('reason_for_admission') or '—' }}</dd>
+      <dt>Attending</dt><dd>{{ enc.get('attending') or '—' }}</dd>
+      <dt>Admitted</dt><dd>{{ enc.get('admit_at') or '—' }}</dd>
+      <dt>Expected discharge</dt><dd>{{ enc.get('expected_discharge_date') or '—' }}</dd>
+      {% if enc.get('discharged_at') %}
+      <dt>Discharged</dt><dd>{{ enc.get('discharged_at') }} ({{ enc.get('disposition') or '—' }})</dd>
+      <dt>Bed went to</dt><dd>{{ enc.get('bed_released_for') or '—' }}</dd>
+      {% endif %}
+      {% if triage %}<dt>Triage</dt><dd>ESI {{ triage.get('esi_level') }} · {{ triage.get('chief_complaint') or '—' }}</dd>{% endif %}
+    </dl>
+  </section>
+  <section class="card">
+    <h3>Clinical status</h3>
+    <dl>
+      <dt>Oxygen</dt><dd>{{ cs.get('oxygen') or '—' }}</dd>
+      <dt>Vitals</dt><dd>HR {{ v.get('hr') or '—' }} · BP {{ v.get('bp') or '—' }} · RR {{ v.get('rr') or '—' }} · SpO₂ {{ v.get('spo2') or '—' }} · T {{ v.get('temp_c') or '—' }}</dd>
+    </dl>
+  </section>
+</div>
+
+<h2>Diagnoses</h2>
+{% set dxs = r.get('diagnoses') or [] %}
+{% if dxs %}
+<table><thead><tr><th>Code</th><th>Description</th><th>Role</th><th>New</th></tr></thead><tbody>
+{% for d in dxs %}<tr><td>{{ d.get('code') or '—' }}</td><td>{{ d.get('description') }}</td><td>{{ d.get('role') }}</td><td>{{ 'yes' if d.get('new_this_admission') else '' }}</td></tr>{% endfor %}
+</tbody></table>
+{% else %}<p class="muted">None recorded.</p>{% endif %}
+
+<h2>Results</h2>
+{% set results = r.get('results') or [] %}
+{% if results %}
+<table><thead><tr><th>Test</th><th>Status</th><th>Value</th><th>Summary</th><th>Follow-up owner</th></tr></thead><tbody>
+{% for x in results %}
+<tr class="{{ 'row-pending' if x.get('status') in ('pending', 'preliminary') }}">
+  <td>{{ x.get('name') }}<div class="muted small">{{ x.get('category') }}</div></td>
+  <td><span class="badge res-{{ x.get('status') }}">{{ x.get('status') }}</span>{% if x.get('expected_final_at') %}<div class="muted small">final by {{ x.get('expected_final_at') }}</div>{% endif %}</td>
+  <td>{% if x.get('value') is not none %}{{ x.get('value') }} {{ x.get('unit') or '' }}{% if x.get('flag') and x.get('flag') != 'normal' %} <span class="chip warn">{{ x.get('flag') }}</span>{% endif %}{% else %}—{% endif %}</td>
+  <td>{{ x.get('summary') or '' }}{% if x.get('recommendation') %}<div class="warn-text small">{{ x.get('recommendation') }}</div>{% endif %}</td>
+  <td>{{ x.get('follow_up_owner') or '—' }}</td>
+</tr>
+{% endfor %}
+</tbody></table>
+{% else %}<p class="muted">None recorded.</p>{% endif %}
+
+<div class="two-col">
+  <section>
+    <h2>Home medications</h2>
+    {% set home = r.get('home_medications') or [] %}
+    {% if home %}<ul>{% for m in home %}<li>{{ m.get('name') }} {{ m.get('dose') or '' }} {{ m.get('route') or '' }} {{ m.get('frequency') or '' }}</li>{% endfor %}</ul>
+    {% else %}<p class="muted">None.</p>{% endif %}
+  </section>
+  <section>
+    <h2>Inpatient medications</h2>
+    {% set inpt = r.get('inpatient_medications') or [] %}
+    {% if inpt %}<ul>{% for m in inpt %}<li><span class="badge med-{{ m.get('status') }}">{{ m.get('status') }}</span> {{ m.get('name') }} {{ m.get('dose') or '' }} {{ m.get('route') or '' }} {{ m.get('frequency') or '' }}{% if m.get('status_reason') %}<div class="muted small">{{ m.get('status_reason') }}</div>{% endif %}</li>{% endfor %}</ul>
+    {% else %}<p class="muted">None.</p>{% endif %}
+  </section>
+</div>
+
+<h2>Follow-up orders</h2>
+{% set fus = r.get('follow_up_orders') or [] %}
+{% if fus %}<ul>{% for f in fus %}<li><span class="badge">{{ f.get('status') }}</span> {{ f.get('type') }} · {{ f.get('specialty') or '—' }}{% if f.get('with') %} with {{ f.get('with') }}{% endif %} — {{ f.get('reason') or '' }}{% if f.get('scheduled_for') %} ({{ f.get('scheduled_for') }}){% endif %}</li>{% endfor %}</ul>
+{% else %}<p class="muted">None booked.</p>{% endif %}
+
+<h2>Discharge draft</h2>
+{% if draft %}
+<div class="card"><div class="muted small">{{ draft.get('status') }} · {{ draft.get('author') or '—' }} · {{ draft.get('written_at') or '—' }}</div>
+<pre class="draft">{{ draft.get('text') or '(empty)' }}</pre></div>
+{% else %}<p class="muted">No draft written yet.</p>{% endif %}
+
+<h2>Event history</h2>
+{% if events %}
+<ol class="events">{% for e in events %}<li><span class="ev-type {{ e.type }}">{{ e.type }}</span> <span class="muted small">{{ e.event_id }} · {{ e.at.strftime('%Y-%m-%d %H:%M:%S') }}</span>{% if e.reason %}<div class="muted small">{{ e.reason }}</div>{% endif %}</li>{% endfor %}</ol>
+{% else %}<p class="muted">No events for this patient since the last reset.</p>{% endif %}
+{% endblock %}

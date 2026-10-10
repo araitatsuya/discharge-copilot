@@ -1,0 +1,156 @@
+{
+  "schema_version": "0.1",
+  "patient_id": "PT-0002",
+  "mrn": "MRN-100002",
+  "demographics": {
+    "name": "James Whitfield",
+    "age": 74,
+    "sex": "M",
+    "preferred_language": "en",
+    "phone": "555-0102",
+    "lives_alone": false
+  },
+  "pcp": {
+    "name": "Dr. Chidi Nwosu",
+    "clinic": "Lakeview Internal Medicine",
+    "phone": "555-0191"
+  },
+  "encounter": {
+    "encounter_id": "E-5002",
+    "status": "admitted",
+    "bed_id": "4W-02",
+    "admit_at": "2026-10-06T09:10:00",
+    "expected_discharge_date": "2026-10-09",
+    "attending": "Dr. Priya Desai",
+    "reason_for_admission": "Atrial fibrillation with rapid ventricular response",
+    "discharged_at": null,
+    "disposition": null,
+    "bed_released_for": null
+  },
+  "triage": null,
+  "clinical_status": {
+    "stability": "stable",
+    "on_iv_therapy": false,
+    "oxygen": "room air",
+    "last_vitals": {
+      "taken_at": "2026-10-09T06:00:00",
+      "hr": 74,
+      "bp": "134/80",
+      "rr": 15,
+      "spo2": 97,
+      "temp_c": 36.7
+    }
+  },
+  "diagnoses": [
+    {
+      "code": "I48.91",
+      "description": "Atrial fibrillation",
+      "role": "principal",
+      "new_this_admission": false
+    },
+    {
+      "code": "I10",
+      "description": "Essential hypertension",
+      "role": "secondary",
+      "new_this_admission": false
+    }
+  ],
+  "results": [
+    {
+      "result_id": "R-5002-1",
+      "category": "lab",
+      "name": "INR",
+      "ordered_at": "2026-10-09T05:00:00",
+      "status": "final",
+      "resulted_at": "2026-10-09T06:30:00",
+      "value": "1.7",
+      "unit": null,
+      "reference_range": "2.0-3.0 (therapeutic)",
+      "flag": "low",
+      "summary": null,
+      "recommendation": null,
+      "expected_final_at": null,
+      "ordering_provider": "Dr. Priya Desai",
+      "follow_up_owner": null
+    },
+    {
+      "result_id": "R-5002-2",
+      "category": "lab",
+      "name": "TSH",
+      "ordered_at": "2026-10-06T10:00:00",
+      "status": "final",
+      "resulted_at": "2026-10-06T14:00:00",
+      "value": "2.1",
+      "unit": "mIU/L",
+      "reference_range": "0.4-4.0",
+      "flag": "normal",
+      "summary": null,
+      "recommendation": null,
+      "expected_final_at": null,
+      "ordering_provider": "Dr. Priya Desai",
+      "follow_up_owner": null
+    }
+  ],
+  "home_medications": [
+    {
+      "name": "warfarin",
+      "dose": "5 mg",
+      "route": "PO",
+      "frequency": "daily"
+    },
+    {
+      "name": "metoprolol tartrate",
+      "dose": "25 mg",
+      "route": "PO",
+      "frequency": "twice daily"
+    }
+  ],
+  "inpatient_medications": [
+    {
+      "name": "warfarin",
+      "dose": "7.5 mg",
+      "route": "PO",
+      "frequency": "daily",
+      "status": "active",
+      "status_reason": "Dose increased for subtherapeutic INR",
+      "start_at": null,
+      "changed_at": "2026-10-07T18:00:00"
+    },
+    {
+      "name": "metoprolol tartrate",
+      "dose": "50 mg",
+      "route": "PO",
+      "frequency": "twice daily",
+      "status": "active",
+      "status_reason": "Dose increased for rate control",
+      "start_at": null,
+      "changed_at": "2026-10-07T09:00:00"
+    },
+    {
+      "name": "diltiazem",
+      "dose": "5 mg/hr",
+      "route": "IV",
+      "frequency": "continuous",
+      "status": "discontinued",
+      "status_reason": "Rate controlled on oral therapy",
+      "start_at": "2026-10-06T09:30:00",
+      "changed_at": "2026-10-07T12:00:00"
+    }
+  ],
+  "follow_up_orders": [
+    {
+      "type": "appointment",
+      "specialty": "Cardiology",
+      "with": "Dr. Priya Desai",
+      "reason": "AFib rate control review",
+      "status": "scheduled",
+      "scheduled_for": "2026-10-30T14:00:00"
+    }
+  ],
+  "discharge_draft": {
+    "status": "draft",
+    "author": "Dr. Priya Desai",
+    "written_at": "2026-10-09T08:00:00",
+    "text": "74M with known paroxysmal AFib admitted with RVR. Rate controlled after IV diltiazem, now on oral metoprolol. INR subtherapeutic on admission.\n\nDischarge medications:\n- Metoprolol tartrate 50 mg PO twice daily (increased)\n- Warfarin 5 mg PO daily\n\nFollow-up: Cardiology clinic in 3 weeks."
+  }
+}

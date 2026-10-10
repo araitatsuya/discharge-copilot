@@ -1,0 +1,208 @@
+// =====================================================================
+// PATIENT RECORD — schema v0.1 (DRAFT, awaiting approval)
+// =====================================================================
+// One file = one patient + their current hospital encounter.
+// Shape is "FHIR-lite": borrows FHIR concepts (Patient, Encounter,
+// Observation, MedicationStatement, ServiceRequest) but flattened so a
+// hackathon team can read it at a glance.
+//
+// The record has two halves — this split IS the product:
+//   1. THE CHART (structured)       -> ground truth the hospital system holds
+//   2. THE DISCHARGE DRAFT (free text) -> what the doctor wrote
+// The copilot cross-checks (2) against (1) and flags gaps.
+//
+// ALL DATA IS SYNTHETIC. Names, MRNs, phone numbers (555-01xx) are fake.
+// "Now" for the demo is 2026-10-09T09:00.
+//
+// The answer key (which gaps are planted in which patient) lives in
+// data/expected_gaps.json — deliberately NOT in this file, so it can never
+// leak into an LLM prompt.
+// =====================================================================
+{
+  "schema_version": "0.1",
+
+  // Stable internal ID, PT-####. NEVER changes, whatever the patient's status.
+  // Status (incoming / admitted / discharged) lives in encounter.status only.
+  "patient_id": "PT-0001",
+  "mrn": "MRN-100001", // medical record number (fake)
+
+  // ---------------------------------------------------------------
+  // WHO the patient is. Drives the patient-facing summary.
+  // ---------------------------------------------------------------
+  "demographics": {
+    "name": "Maria Gonzalez",
+    "age": 67,
+    "sex": "F",                       // F | M | X
+    "preferred_language": "es",       // ISO 639-1; summary can be translated (stretch goal)
+    "phone": "555-0101",
+    "lives_alone": true               // context for safe discharge / follow-up calls
+  },
+
+  // Primary care provider. null = patient has NO PCP, which itself is a
+  // follow-up risk: nobody "owns" pending results after discharge.
+  "pcp": {
+    "name": "Dr. Ellen Park",
+    "clinic": "Riverside Family Medicine",
+    "phone": "555-0190"
+  },
+
+  // ---------------------------------------------------------------
+  // THE CURRENT STAY. Drives the bed board.
+  // ---------------------------------------------------------------
+  "encounter": {
+    "encounter_id": "E-5001",
+    "status": "admitted",                  // incoming | admitted | discharged
+    "bed_id": "4W-01",                     // must match an id in data/beds.json; null for incoming
+    "admit_at": "2026-10-05T14:20:00",
+    "expected_discharge_date": "2026-10-09",
+    "attending": "Dr. Samuel Reyes",
+    "reason_for_admission": "Community-acquired pneumonia with acute kidney injury",
+    // --- Filled in by the app at discharge; null while admitted ---
+    "discharged_at": null,
+    "disposition": null,                   // home | home_with_services | skilled_nursing | transfer
+    "bed_released_for": null               // patient_id who got this bed next, e.g. "PT-0011"
+  },
+
+  // Filled for patients arriving from the ED (the curl POST payloads). null for seeded patients.
+  // ESI = Emergency Severity Index, 1 (most urgent) .. 5 (least urgent).
+  "triage": null,
+
+  // ---------------------------------------------------------------
+  // HOW SICK RIGHT NOW. Feeds the discharge-readiness score.
+  // ---------------------------------------------------------------
+  "clinical_status": {
+    "stability": "stable",                 // unstable | improving | stable
+    "on_iv_therapy": false,                // still on IV meds/fluids -> not ready
+    "oxygen": "room air",                  // "room air" | "2L nasal cannula" | "BiPAP" ...
+    "last_vitals": {
+      "taken_at": "2026-10-09T06:00:00",
+      "hr": 82, "bp": "128/76", "rr": 16, "spo2": 96, "temp_c": 36.9
+    }
+  },
+
+  // ---------------------------------------------------------------
+  // DIAGNOSES. ICD-10 codes are illustrative.
+  // ---------------------------------------------------------------
+  "diagnoses": [
+    {
+      "code": "J18.9",
+      "description": "Community-acquired pneumonia",
+      "role": "principal",                 // principal | secondary
+      "new_this_admission": true           // new dx often implies a follow-up is needed
+    },
+    { "code": "N17.9", "description": "Acute kidney injury", "role": "secondary", "new_this_admission": true },
+    { "code": "I10",   "description": "Essential hypertension", "role": "secondary", "new_this_admission": false }
+  ],
+
+  // ---------------------------------------------------------------
+  // RESULTS: labs, microbiology, pathology, imaging — ONE list.
+  // Unified so the "pending results" check is a single filter.
+  // ---------------------------------------------------------------
+  "results": [
+    {
+      "result_id": "R-5001-1",
+      "category": "lab",                   // lab | microbiology | pathology | imaging
+      "name": "Creatinine",
+      "ordered_at": "2026-10-08T05:00:00",
+      "status": "final",                   // pending | preliminary | final | cancelled
+      "resulted_at": "2026-10-08T07:10:00",
+      "value": "1.6",                      // string so it can hold "positive", "1.6", etc.
+      "unit": "mg/dL",
+      "reference_range": "0.6-1.1",
+      "flag": "high",                      // normal | high | low | critical | abnormal | null
+      "summary": null,                     // narrative for micro / path / imaging
+      "recommendation": null,              // e.g. radiologist "CT in 3 months" -> follow-up needed
+      "expected_final_at": null,           // when a pending result is expected back
+      "ordering_provider": "Dr. Samuel Reyes",
+      "follow_up_owner": null              // who acts on it after discharge. null + pending = GAP
+    },
+    {
+      "result_id": "R-5001-2",
+      "category": "microbiology",
+      "name": "Blood culture x2",
+      "ordered_at": "2026-10-05T15:00:00",
+      "status": "preliminary",             // <-- still not final at discharge
+      "resulted_at": "2026-10-07T15:00:00",
+      "value": null,
+      "unit": null,
+      "reference_range": null,
+      "flag": null,
+      "summary": "No growth at 48 hours. Final read at 5 days.",
+      "recommendation": null,
+      "expected_final_at": "2026-10-10T15:00:00",  // lands AFTER planned discharge
+      "ordering_provider": "Dr. Samuel Reyes",
+      "follow_up_owner": null              // <-- PLANTED GAP: nobody owns this result
+    }
+  ],
+
+  // ---------------------------------------------------------------
+  // MEDICATIONS — two lists, mirroring real medication reconciliation.
+  //   home_medications:      what the patient took BEFORE admission
+  //   inpatient_medications: what the hospital did with them + new starts
+  // The med check diffs: home vs inpatient vs what the discharge text says.
+  // ---------------------------------------------------------------
+  "home_medications": [
+    { "name": "lisinopril", "dose": "20 mg", "route": "PO", "frequency": "daily" },
+    { "name": "amlodipine", "dose": "5 mg",  "route": "PO", "frequency": "daily" }
+  ],
+  "inpatient_medications": [
+    {
+      "name": "lisinopril",
+      "dose": "20 mg", "route": "PO", "frequency": "daily",
+      "status": "held",                    // active | held | discontinued | completed
+      "status_reason": "Held for AKI (creatinine peak 1.9)",
+      "start_at": null,
+      "changed_at": "2026-10-05T16:00:00"
+    },
+    {
+      "name": "amlodipine",
+      "dose": "5 mg", "route": "PO", "frequency": "daily",
+      "status": "active", "status_reason": null,
+      "start_at": null, "changed_at": null
+    },
+    {
+      "name": "ceftriaxone",
+      "dose": "1 g", "route": "IV", "frequency": "every 24 hours",
+      "status": "completed", "status_reason": "Switched to oral therapy",
+      "start_at": "2026-10-05T15:30:00", "changed_at": "2026-10-08T09:00:00"
+    },
+    {
+      "name": "levofloxacin",
+      "dose": "750 mg", "route": "PO", "frequency": "daily",
+      "status": "active", "status_reason": "Oral step-down, complete 7-day total course",
+      "start_at": "2026-10-08T09:00:00", "changed_at": null
+    }
+  ],
+
+  // ---------------------------------------------------------------
+  // FOLLOW-UP ORDERS that actually exist in the system.
+  // A needed follow-up that is ABSENT from this list is a gap.
+  // ---------------------------------------------------------------
+  "follow_up_orders": [
+    {
+      "type": "appointment",               // appointment | referral | lab_draw | phone_call
+      "specialty": "Primary care",
+      "with": "Dr. Ellen Park",
+      "reason": "Post-pneumonia check, repeat creatinine",
+      "status": "scheduled",               // scheduled | requested (not yet booked)
+      "scheduled_for": "2026-10-16T10:30:00"
+    }
+  ],
+
+  // ---------------------------------------------------------------
+  // THE DISCHARGE DRAFT — free text, as a doctor actually writes it.
+  // Intentionally NOT structured: the LLM extracts meds / follow-ups /
+  // pending items from it, and the rule engine diffs that against the chart.
+  // null = no draft written yet (patient not near discharge).
+  // ---------------------------------------------------------------
+  "discharge_draft": {
+    "status": "draft",                     // draft | signed
+    "author": "Dr. Samuel Reyes",
+    "written_at": "2026-10-09T07:45:00",
+    "text": "67F admitted 10/5 with right lower lobe community-acquired pneumonia complicated by AKI. Treated with IV ceftriaxone, transitioned to oral levofloxacin 10/8. Afebrile >48h, on room air. Creatinine improved 1.9 -> 1.6. Blood cultures negative to date.\n\nDischarge medications: Resume all home medications. Levofloxacin 750 mg PO daily x 4 more days.\n\nFollow-up: PCP Dr. Park in 1 week for repeat BMP."
+    // ^ PLANTED GAPS the copilot should catch:
+    //   - "Resume all home medications" re-starts lisinopril, which is HELD for AKI
+    //   - "Blood cultures negative to date" hides that cultures are NOT final
+    //     and nobody is assigned to check the final read
+  }
+}

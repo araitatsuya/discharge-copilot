@@ -1,0 +1,142 @@
+{
+  "schema_version": "0.1",
+  "patient_id": "PT-0011",
+  "mrn": "MRN-100011",
+  "demographics": {
+    "name": "Grace Liu",
+    "age": 59,
+    "sex": "F",
+    "preferred_language": "zh",
+    "phone": "555-0111",
+    "lives_alone": false
+  },
+  "pcp": {
+    "name": "Dr. Ellen Park",
+    "clinic": "Riverside Family Medicine",
+    "phone": "555-0190"
+  },
+  "encounter": {
+    "encounter_id": "E-5011",
+    "status": "incoming",
+    "bed_id": null,
+    "admit_at": null,
+    "expected_discharge_date": null,
+    "attending": null,
+    "reason_for_admission": "Suspected urosepsis",
+    "discharged_at": null,
+    "disposition": null,
+    "bed_released_for": null
+  },
+  "triage": {
+    "source": "ED",
+    "arrived_at": "2026-10-09T08:40:00",
+    "esi_level": 2,
+    "chief_complaint": "Fever, confusion, dysuria",
+    "requested_unit": "4 West"
+  },
+  "clinical_status": {
+    "stability": "unstable",
+    "on_iv_therapy": true,
+    "oxygen": "2L nasal cannula",
+    "last_vitals": {
+      "taken_at": "2026-10-09T08:45:00",
+      "hr": 118,
+      "bp": "92/58",
+      "rr": 24,
+      "spo2": 93,
+      "temp_c": 39.1
+    }
+  },
+  "diagnoses": [
+    {
+      "code": "A41.9",
+      "description": "Sepsis, unspecified organism",
+      "role": "principal",
+      "new_this_admission": true
+    },
+    {
+      "code": "N39.0",
+      "description": "Urinary tract infection",
+      "role": "secondary",
+      "new_this_admission": true
+    }
+  ],
+  "results": [
+    {
+      "result_id": "R-5011-1",
+      "category": "lab",
+      "name": "Lactate",
+      "ordered_at": "2026-10-09T08:50:00",
+      "status": "final",
+      "resulted_at": "2026-10-09T09:05:00",
+      "value": "3.4",
+      "unit": "mmol/L",
+      "reference_range": "0.5-2.0",
+      "flag": "high",
+      "summary": null,
+      "recommendation": null,
+      "expected_final_at": null,
+      "ordering_provider": "Dr. Omar Haddad (ED)",
+      "follow_up_owner": null
+    },
+    {
+      "result_id": "R-5011-2",
+      "category": "microbiology",
+      "name": "Blood culture x2",
+      "ordered_at": "2026-10-09T08:50:00",
+      "status": "pending",
+      "resulted_at": null,
+      "value": null,
+      "unit": null,
+      "reference_range": null,
+      "flag": null,
+      "summary": null,
+      "recommendation": null,
+      "expected_final_at": "2026-10-14T09:00:00",
+      "ordering_provider": "Dr. Omar Haddad (ED)",
+      "follow_up_owner": null
+    }
+  ],
+  "home_medications": [
+    {
+      "name": "losartan",
+      "dose": "50 mg",
+      "route": "PO",
+      "frequency": "daily"
+    }
+  ],
+  "inpatient_medications": [
+    {
+      "name": "piperacillin/tazobactam",
+      "dose": "4.5 g",
+      "route": "IV",
+      "frequency": "every 6 hours",
+      "status": "active",
+      "status_reason": "Empiric sepsis coverage",
+      "start_at": "2026-10-09T09:00:00",
+      "changed_at": null
+    },
+    {
+      "name": "normal saline",
+      "dose": "30 mL/kg",
+      "route": "IV",
+      "frequency": "bolus",
+      "status": "active",
+      "status_reason": "Sepsis fluid resuscitation",
+      "start_at": "2026-10-09T08:55:00",
+      "changed_at": null
+    },
+    {
+      "name": "losartan",
+      "dose": "50 mg",
+      "route": "PO",
+      "frequency": "daily",
+      "status": "held",
+      "status_reason": "Hypotension",
+      "start_at": null,
+      "changed_at": "2026-10-09T09:00:00"
+    }
+  ],
+  "follow_up_orders": [],
+  "discharge_draft": null
+}

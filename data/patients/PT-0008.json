@@ -1,0 +1,141 @@
+{
+  "schema_version": "0.1",
+  "patient_id": "PT-0008",
+  "mrn": "MRN-100008",
+  "demographics": {
+    "name": "Kenji Tanaka",
+    "age": 63,
+    "sex": "M",
+    "preferred_language": "ja",
+    "phone": "555-0108",
+    "lives_alone": false
+  },
+  "pcp": {
+    "name": "Dr. Hana Sato",
+    "clinic": "Northgate Primary Care",
+    "phone": "555-0192"
+  },
+  "encounter": {
+    "encounter_id": "E-5008",
+    "status": "admitted",
+    "bed_id": "4W-08",
+    "admit_at": "2026-10-06T07:50:00",
+    "expected_discharge_date": "2026-10-09",
+    "attending": "Dr. Priya Desai",
+    "reason_for_admission": "Upper GI bleed from gastric ulcer",
+    "discharged_at": null,
+    "disposition": null,
+    "bed_released_for": null
+  },
+  "triage": null,
+  "clinical_status": {
+    "stability": "stable",
+    "on_iv_therapy": false,
+    "oxygen": "room air",
+    "last_vitals": {
+      "taken_at": "2026-10-09T06:00:00",
+      "hr": 80,
+      "bp": "124/78",
+      "rr": 14,
+      "spo2": 98,
+      "temp_c": 36.6
+    }
+  },
+  "diagnoses": [
+    {
+      "code": "K25.4",
+      "description": "Gastric ulcer with hemorrhage",
+      "role": "principal",
+      "new_this_admission": true
+    }
+  ],
+  "results": [
+    {
+      "result_id": "R-5008-1",
+      "category": "lab",
+      "name": "Hemoglobin",
+      "ordered_at": "2026-10-09T05:00:00",
+      "status": "final",
+      "resulted_at": "2026-10-09T05:45:00",
+      "value": "10.8",
+      "unit": "g/dL",
+      "reference_range": "13.5-17.5",
+      "flag": "low",
+      "summary": null,
+      "recommendation": null,
+      "expected_final_at": null,
+      "ordering_provider": "Dr. Priya Desai",
+      "follow_up_owner": null
+    },
+    {
+      "result_id": "R-5008-2",
+      "category": "pathology",
+      "name": "Gastric biopsy (EGD 10/7)",
+      "ordered_at": "2026-10-07T11:00:00",
+      "status": "pending",
+      "resulted_at": null,
+      "value": null,
+      "unit": null,
+      "reference_range": null,
+      "flag": null,
+      "summary": "Specimen received. Evaluate for H. pylori and malignancy.",
+      "recommendation": null,
+      "expected_final_at": "2026-10-13T17:00:00",
+      "ordering_provider": "Dr. Priya Desai",
+      "follow_up_owner": null
+    }
+  ],
+  "home_medications": [
+    {
+      "name": "ibuprofen",
+      "dose": "600 mg",
+      "route": "PO",
+      "frequency": "three times daily as needed"
+    },
+    {
+      "name": "lisinopril",
+      "dose": "10 mg",
+      "route": "PO",
+      "frequency": "daily"
+    }
+  ],
+  "inpatient_medications": [
+    {
+      "name": "ibuprofen",
+      "dose": "600 mg",
+      "route": "PO",
+      "frequency": "three times daily as needed",
+      "status": "discontinued",
+      "status_reason": "NSAID - likely ulcer cause",
+      "start_at": null,
+      "changed_at": "2026-10-06T08:00:00"
+    },
+    {
+      "name": "lisinopril",
+      "dose": "10 mg",
+      "route": "PO",
+      "frequency": "daily",
+      "status": "active",
+      "status_reason": null,
+      "start_at": null,
+      "changed_at": null
+    },
+    {
+      "name": "pantoprazole",
+      "dose": "40 mg",
+      "route": "PO",
+      "frequency": "twice daily",
+      "status": "active",
+      "status_reason": "New start for gastric ulcer, 8 weeks",
+      "start_at": "2026-10-08T09:00:00",
+      "changed_at": null
+    }
+  ],
+  "follow_up_orders": [],
+  "discharge_draft": {
+    "status": "draft",
+    "author": "Dr. Priya Desai",
+    "written_at": "2026-10-09T07:40:00",
+    "text": "63M with melena and Hgb 8.1 on admission. EGD 10/7 showed a 1.5 cm gastric ulcer with visible vessel, treated endoscopically. Transfused 1 unit, Hgb stable at 10.8.\n\nDischarge medications: Pantoprazole 40 mg PO twice daily. Continue lisinopril 10 mg daily.\n\nFollow-up: PCP in 2 weeks for repeat CBC."
+  }
+}

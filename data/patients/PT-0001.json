@@ -1,0 +1,172 @@
+{
+  "schema_version": "0.1",
+  "patient_id": "PT-0001",
+  "mrn": "MRN-100001",
+  "demographics": {
+    "name": "Maria Gonzalez",
+    "age": 67,
+    "sex": "F",
+    "preferred_language": "es",
+    "phone": "555-0101",
+    "lives_alone": true
+  },
+  "pcp": {
+    "name": "Dr. Ellen Park",
+    "clinic": "Riverside Family Medicine",
+    "phone": "555-0190"
+  },
+  "encounter": {
+    "encounter_id": "E-5001",
+    "status": "admitted",
+    "bed_id": "4W-01",
+    "admit_at": "2026-10-05T14:20:00",
+    "expected_discharge_date": "2026-10-09",
+    "attending": "Dr. Samuel Reyes",
+    "reason_for_admission": "Community-acquired pneumonia with acute kidney injury",
+    "discharged_at": null,
+    "disposition": null,
+    "bed_released_for": null
+  },
+  "triage": null,
+  "clinical_status": {
+    "stability": "stable",
+    "on_iv_therapy": false,
+    "oxygen": "room air",
+    "last_vitals": {
+      "taken_at": "2026-10-09T06:00:00",
+      "hr": 82,
+      "bp": "128/76",
+      "rr": 16,
+      "spo2": 96,
+      "temp_c": 36.9
+    }
+  },
+  "diagnoses": [
+    {
+      "code": "J18.9",
+      "description": "Community-acquired pneumonia",
+      "role": "principal",
+      "new_this_admission": true
+    },
+    {
+      "code": "N17.9",
+      "description": "Acute kidney injury",
+      "role": "secondary",
+      "new_this_admission": true
+    },
+    {
+      "code": "I10",
+      "description": "Essential hypertension",
+      "role": "secondary",
+      "new_this_admission": false
+    }
+  ],
+  "results": [
+    {
+      "result_id": "R-5001-1",
+      "category": "lab",
+      "name": "Creatinine",
+      "ordered_at": "2026-10-08T05:00:00",
+      "status": "final",
+      "resulted_at": "2026-10-08T07:10:00",
+      "value": "1.6",
+      "unit": "mg/dL",
+      "reference_range": "0.6-1.1",
+      "flag": "high",
+      "summary": null,
+      "recommendation": null,
+      "expected_final_at": null,
+      "ordering_provider": "Dr. Samuel Reyes",
+      "follow_up_owner": null
+    },
+    {
+      "result_id": "R-5001-2",
+      "category": "microbiology",
+      "name": "Blood culture x2",
+      "ordered_at": "2026-10-05T15:00:00",
+      "status": "preliminary",
+      "resulted_at": "2026-10-07T15:00:00",
+      "value": null,
+      "unit": null,
+      "reference_range": null,
+      "flag": null,
+      "summary": "No growth at 48 hours. Final read at 5 days.",
+      "recommendation": null,
+      "expected_final_at": "2026-10-10T15:00:00",
+      "ordering_provider": "Dr. Samuel Reyes",
+      "follow_up_owner": null
+    }
+  ],
+  "home_medications": [
+    {
+      "name": "lisinopril",
+      "dose": "20 mg",
+      "route": "PO",
+      "frequency": "daily"
+    },
+    {
+      "name": "amlodipine",
+      "dose": "5 mg",
+      "route": "PO",
+      "frequency": "daily"
+    }
+  ],
+  "inpatient_medications": [
+    {
+      "name": "lisinopril",
+      "dose": "20 mg",
+      "route": "PO",
+      "frequency": "daily",
+      "status": "held",
+      "status_reason": "Held for AKI (creatinine peak 1.9)",
+      "start_at": null,
+      "changed_at": "2026-10-05T16:00:00"
+    },
+    {
+      "name": "amlodipine",
+      "dose": "5 mg",
+      "route": "PO",
+      "frequency": "daily",
+      "status": "active",
+      "status_reason": null,
+      "start_at": null,
+      "changed_at": null
+    },
+    {
+      "name": "ceftriaxone",
+      "dose": "1 g",
+      "route": "IV",
+      "frequency": "every 24 hours",
+      "status": "completed",
+      "status_reason": "Switched to oral therapy",
+      "start_at": "2026-10-05T15:30:00",
+      "changed_at": "2026-10-08T09:00:00"
+    },
+    {
+      "name": "levofloxacin",
+      "dose": "750 mg",
+      "route": "PO",
+      "frequency": "daily",
+      "status": "active",
+      "status_reason": "Oral step-down, complete 7-day total course",
+      "start_at": "2026-10-08T09:00:00",
+      "changed_at": null
+    }
+  ],
+  "follow_up_orders": [
+    {
+      "type": "appointment",
+      "specialty": "Primary care",
+      "with": "Dr. Ellen Park",
+      "reason": "Post-pneumonia check, repeat creatinine",
+      "status": "scheduled",
+      "scheduled_for": "2026-10-16T10:30:00"
+    }
+  ],
+  "discharge_draft": {
+    "status": "draft",
+    "author": "Dr. Samuel Reyes",
+    "written_at": "2026-10-09T07:45:00",
+    "text": "67F admitted 10/5 with right lower lobe community-acquired pneumonia complicated by AKI. Treated with IV ceftriaxone, transitioned to oral levofloxacin 10/8. Afebrile >48h, on room air. Creatinine improved 1.9 -> 1.6. Blood cultures negative to date.\n\nDischarge medications: Resume all home medications. Levofloxacin 750 mg PO daily x 4 more days.\n\nFollow-up: PCP Dr. Park in 1 week for repeat BMP."
+  }
+}

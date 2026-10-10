@@ -1,0 +1,167 @@
+{
+  "schema_version": "0.1",
+  "patient_id": "PT-0004",
+  "mrn": "MRN-100004",
+  "demographics": {
+    "name": "Robert Chen",
+    "age": 58,
+    "sex": "M",
+    "preferred_language": "en",
+    "phone": "555-0104",
+    "lives_alone": false
+  },
+  "pcp": {
+    "name": "Dr. Hana Sato",
+    "clinic": "Northgate Primary Care",
+    "phone": "555-0192"
+  },
+  "encounter": {
+    "encounter_id": "E-5004",
+    "status": "admitted",
+    "bed_id": "4W-04",
+    "admit_at": "2026-10-08T03:15:00",
+    "expected_discharge_date": "2026-10-09",
+    "attending": "Dr. Priya Desai",
+    "reason_for_admission": "Chest pain, rule out acute coronary syndrome",
+    "discharged_at": null,
+    "disposition": null,
+    "bed_released_for": null
+  },
+  "triage": null,
+  "clinical_status": {
+    "stability": "stable",
+    "on_iv_therapy": false,
+    "oxygen": "room air",
+    "last_vitals": {
+      "taken_at": "2026-10-09T06:00:00",
+      "hr": 70,
+      "bp": "130/82",
+      "rr": 14,
+      "spo2": 98,
+      "temp_c": 36.6
+    }
+  },
+  "diagnoses": [
+    {
+      "code": "R07.9",
+      "description": "Chest pain, unspecified",
+      "role": "principal",
+      "new_this_admission": true
+    },
+    {
+      "code": "R91.1",
+      "description": "Solitary pulmonary nodule",
+      "role": "secondary",
+      "new_this_admission": true
+    }
+  ],
+  "results": [
+    {
+      "result_id": "R-5004-1",
+      "category": "lab",
+      "name": "Troponin I (serial x3)",
+      "ordered_at": "2026-10-08T03:30:00",
+      "status": "final",
+      "resulted_at": "2026-10-08T12:00:00",
+      "value": "<0.01",
+      "unit": "ng/mL",
+      "reference_range": "<0.04",
+      "flag": "normal",
+      "summary": null,
+      "recommendation": null,
+      "expected_final_at": null,
+      "ordering_provider": "Dr. Priya Desai",
+      "follow_up_owner": null
+    },
+    {
+      "result_id": "R-5004-2",
+      "category": "imaging",
+      "name": "CT angiography chest",
+      "ordered_at": "2026-10-08T04:00:00",
+      "status": "final",
+      "resulted_at": "2026-10-08T06:20:00",
+      "value": null,
+      "unit": null,
+      "reference_range": null,
+      "flag": "abnormal",
+      "summary": "No pulmonary embolism. No aortic dissection. Incidental 9 mm solid nodule in the right upper lobe.",
+      "recommendation": "Follow-up CT chest in 3 months per Fleischner guidelines.",
+      "expected_final_at": null,
+      "ordering_provider": "Dr. Priya Desai",
+      "follow_up_owner": null
+    },
+    {
+      "result_id": "R-5004-3",
+      "category": "lab",
+      "name": "Lipid panel (LDL)",
+      "ordered_at": "2026-10-08T05:00:00",
+      "status": "final",
+      "resulted_at": "2026-10-08T09:00:00",
+      "value": "162",
+      "unit": "mg/dL",
+      "reference_range": "<100",
+      "flag": "high",
+      "summary": null,
+      "recommendation": null,
+      "expected_final_at": null,
+      "ordering_provider": "Dr. Priya Desai",
+      "follow_up_owner": null
+    }
+  ],
+  "home_medications": [
+    {
+      "name": "omeprazole",
+      "dose": "20 mg",
+      "route": "PO",
+      "frequency": "daily"
+    }
+  ],
+  "inpatient_medications": [
+    {
+      "name": "omeprazole",
+      "dose": "20 mg",
+      "route": "PO",
+      "frequency": "daily",
+      "status": "active",
+      "status_reason": null,
+      "start_at": null,
+      "changed_at": null
+    },
+    {
+      "name": "atorvastatin",
+      "dose": "40 mg",
+      "route": "PO",
+      "frequency": "nightly",
+      "status": "active",
+      "status_reason": "New start for elevated LDL",
+      "start_at": "2026-10-08T21:00:00",
+      "changed_at": null
+    },
+    {
+      "name": "aspirin",
+      "dose": "81 mg",
+      "route": "PO",
+      "frequency": "daily",
+      "status": "active",
+      "status_reason": "New start",
+      "start_at": "2026-10-08T04:00:00",
+      "changed_at": null
+    }
+  ],
+  "follow_up_orders": [
+    {
+      "type": "appointment",
+      "specialty": "Cardiology",
+      "with": "Dr. Priya Desai",
+      "reason": "Outpatient stress test",
+      "status": "requested",
+      "scheduled_for": null
+    }
+  ],
+  "discharge_draft": {
+    "status": "draft",
+    "author": "Dr. Priya Desai",
+    "written_at": "2026-10-09T07:30:00",
+    "text": "58M with atypical chest pain. Serial troponins negative, ECG without ischemic changes. CTA chest negative for PE and dissection. LDL 162.\n\nDischarge medications: Continue omeprazole 20 mg daily. Start atorvastatin 40 mg nightly. Start aspirin 81 mg daily.\n\nFollow-up: Outpatient stress test with cardiology."
+  }
+}

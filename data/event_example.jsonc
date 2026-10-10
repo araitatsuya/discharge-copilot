@@ -1,0 +1,37 @@
+// =====================================================================
+// EVENT — one row in the audit log (SQLite table `events`). schema v0.1
+// =====================================================================
+// The log is append-only. Nothing in it is ever edited or deleted
+// (except by "Reset demo", which wipes the whole demo database).
+// One bed handover is several events, e.g.:
+//   arrived -> bed_pressure -> discharged -> bed_assigned
+// =====================================================================
+{
+  "event_id": "EV-0042",
+  "at": "2026-10-09T10:05:00",
+
+  // arrived       : new patient POSTed to /api/patients
+  // bed_assigned  : patient put into a bed
+  // bed_pressure  : patient arrived but every bed is full -> waiting list
+  // discharged    : patient left; bed freed
+  // demo_reset    : database reloaded from data/
+  // (later phases add: candidates_ranked, gap_flagged, gap_resolved,
+  //  gap_overridden, summary_generated)
+  "type": "discharged",
+
+  "patient_id": "PT-0005",            // who the event is about
+  "related_patient_id": "PT-0011",    // the other patient involved (who got the bed), or null
+  "bed_id": "4W-05",
+
+  // Who did it. kind = clinician | system | ai.
+  // The AI never discharges anyone; it only recommends (kind = ai on
+  // candidates_ranked / gap_flagged events).
+  "actor": { "kind": "clinician", "name": "Dr. Samuel Reyes" },
+
+  "reason": "Ready for discharge, 0 open gaps; bed needed for ESI-2 urosepsis admission",
+
+  // Free-form extras, different per event type.
+  "details": {
+    "disposition": "home"
+  }
+}

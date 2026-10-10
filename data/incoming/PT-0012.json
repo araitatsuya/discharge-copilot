@@ -1,0 +1,126 @@
+{
+  "schema_version": "0.1",
+  "patient_id": "PT-0012",
+  "mrn": "MRN-100012",
+  "demographics": {
+    "name": "Thomas Brennan",
+    "age": 77,
+    "sex": "M",
+    "preferred_language": "en",
+    "phone": "555-0112",
+    "lives_alone": true
+  },
+  "pcp": {
+    "name": "Dr. Chidi Nwosu",
+    "clinic": "Lakeview Internal Medicine",
+    "phone": "555-0191"
+  },
+  "encounter": {
+    "encounter_id": "E-5012",
+    "status": "incoming",
+    "bed_id": null,
+    "admit_at": null,
+    "expected_discharge_date": null,
+    "attending": null,
+    "reason_for_admission": "Right hip fracture after fall",
+    "discharged_at": null,
+    "disposition": null,
+    "bed_released_for": null
+  },
+  "triage": {
+    "source": "ED",
+    "arrived_at": "2026-10-09T09:15:00",
+    "esi_level": 3,
+    "chief_complaint": "Fall at home, unable to bear weight",
+    "requested_unit": "4 West"
+  },
+  "clinical_status": {
+    "stability": "stable",
+    "on_iv_therapy": true,
+    "oxygen": "room air",
+    "last_vitals": {
+      "taken_at": "2026-10-09T09:20:00",
+      "hr": 88,
+      "bp": "146/84",
+      "rr": 18,
+      "spo2": 96,
+      "temp_c": 36.7
+    }
+  },
+  "diagnoses": [
+    {
+      "code": "S72.001A",
+      "description": "Fracture of neck of right femur, initial encounter",
+      "role": "principal",
+      "new_this_admission": true
+    }
+  ],
+  "results": [
+    {
+      "result_id": "R-5012-1",
+      "category": "imaging",
+      "name": "X-ray right hip",
+      "ordered_at": "2026-10-09T09:25:00",
+      "status": "final",
+      "resulted_at": "2026-10-09T09:50:00",
+      "value": null,
+      "unit": null,
+      "reference_range": null,
+      "flag": "abnormal",
+      "summary": "Displaced right femoral neck fracture.",
+      "recommendation": null,
+      "expected_final_at": null,
+      "ordering_provider": "Dr. Omar Haddad (ED)",
+      "follow_up_owner": null
+    },
+    {
+      "result_id": "R-5012-2",
+      "category": "lab",
+      "name": "Hemoglobin",
+      "ordered_at": "2026-10-09T09:25:00",
+      "status": "final",
+      "resulted_at": "2026-10-09T09:55:00",
+      "value": "12.9",
+      "unit": "g/dL",
+      "reference_range": "13.5-17.5",
+      "flag": "low",
+      "summary": null,
+      "recommendation": null,
+      "expected_final_at": null,
+      "ordering_provider": "Dr. Omar Haddad (ED)",
+      "follow_up_owner": null
+    }
+  ],
+  "home_medications": [
+    {
+      "name": "apixaban",
+      "dose": "5 mg",
+      "route": "PO",
+      "frequency": "twice daily"
+    }
+  ],
+  "inpatient_medications": [
+    {
+      "name": "apixaban",
+      "dose": "5 mg",
+      "route": "PO",
+      "frequency": "twice daily",
+      "status": "held",
+      "status_reason": "Pre-operative hold",
+      "start_at": null,
+      "changed_at": "2026-10-09T09:40:00"
+    },
+    {
+      "name": "morphine",
+      "dose": "2 mg",
+      "route": "IV",
+      "frequency": "every 3 hours as needed",
+      "status": "active",
+      "status_reason": "Pain",
+      "start_at": "2026-10-09T09:35:00",
+      "changed_at": null
+    }
+  ],
+  "follow_up_orders": [],
+  "discharge_draft": null
+}

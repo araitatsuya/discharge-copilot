@@ -1,0 +1,63 @@
+{
+  "schema_version": "0.1",
+  "unit": "4 West",
+  "unit_type": "Medical-surgical",
+  "beds": [
+    {
+      "bed_id": "4W-01",
+      "room": "401",
+      "features": []
+    },
+    {
+      "bed_id": "4W-02",
+      "room": "402",
+      "features": [
+        "telemetry"
+      ]
+    },
+    {
+      "bed_id": "4W-03",
+      "room": "403",
+      "features": []
+    },
+    {
+      "bed_id": "4W-04",
+      "room": "404",
+      "features": [
+        "telemetry"
+      ]
+    },
+    {
+      "bed_id": "4W-05",
+      "room": "405",
+      "features": []
+    },
+    {
+      "bed_id": "4W-06",
+      "room": "406",
+      "features": [
+        "telemetry"
+      ]
+    },
+    {
+      "bed_id": "4W-07",
+      "room": "407",
+      "features": []
+    },
+    {
+      "bed_id": "4W-08",
+      "room": "408",
+      "features": []
+    },
+    {
+      "bed_id": "4W-09",
+      "room": "409",
+      "features": []
+    },
+    {
+      "bed_id": "4W-10",
+      "room": "410",
+      "features": []
+    }
+  ]
+}

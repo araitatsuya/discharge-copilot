@@ -1,0 +1,98 @@
+{
+  "_note": "ANSWER KEY for tests and demo scoring. Never send this file to the LLM.",
+  "PT-0001": [
+    {
+      "type": "unreconciled_med",
+      "severity": "high",
+      "evidence_ref": "lisinopril",
+      "description": "Draft says 'resume all home medications' but lisinopril is HELD for AKI."
+    },
+    {
+      "type": "pending_result",
+      "severity": "high",
+      "evidence_ref": "R-5001-2",
+      "description": "Blood cultures preliminary, final due 10/10 after discharge; no follow-up owner. Draft implies negative."
+    }
+  ],
+  "PT-0002": [
+    {
+      "type": "unreconciled_med",
+      "severity": "high",
+      "evidence_ref": "warfarin",
+      "description": "Draft lists warfarin 5 mg; chart dose is 7.5 mg."
+    },
+    {
+      "type": "missing_follow_up",
+      "severity": "high",
+      "evidence_ref": "R-5002-1",
+      "description": "INR 1.7 subtherapeutic after dose change; no INR check or anticoagulation clinic booked."
+    }
+  ],
+  "PT-0003": [
+    {
+      "type": "unreconciled_med",
+      "severity": "high",
+      "evidence_ref": "insulin glargine",
+      "description": "New insulin glargine 14 units nightly missing from discharge meds."
+    },
+    {
+      "type": "missing_follow_up",
+      "severity": "high",
+      "evidence_ref": "E11.65",
+      "description": "New diabetes diagnosis, no PCP on file and no follow-up booked."
+    }
+  ],
+  "PT-0004": [
+    {
+      "type": "pending_result",
+      "severity": "high",
+      "evidence_ref": "R-5004-2",
+      "description": "Incidental 9 mm lung nodule with 3-month CT recommendation not mentioned in draft, no owner."
+    },
+    {
+      "type": "missing_follow_up",
+      "severity": "medium",
+      "evidence_ref": "R-5004-2",
+      "description": "No follow-up CT chest ordered."
+    }
+  ],
+  "PT-0005": [],
+  "PT-0006": "not_a_discharge_candidate",
+  "PT-0007": [
+    {
+      "type": "pending_result",
+      "severity": "high",
+      "evidence_ref": "R-5007-1",
+      "description": "Urine culture susceptibilities pending; draft says 'follow up urine culture' with no named owner. Cipro may need changing."
+    }
+  ],
+  "PT-0008": [
+    {
+      "type": "pending_result",
+      "severity": "high",
+      "evidence_ref": "R-5008-2",
+      "description": "Gastric biopsy pending (H. pylori / malignancy) not mentioned in draft; no owner."
+    },
+    {
+      "type": "unreconciled_med",
+      "severity": "high",
+      "evidence_ref": "ibuprofen",
+      "description": "Home ibuprofen discontinued (ulcer cause) but draft does not tell patient to stop it."
+    },
+    {
+      "type": "missing_follow_up",
+      "severity": "medium",
+      "evidence_ref": "K25.4",
+      "description": "No GI follow-up / repeat EGD arranged."
+    }
+  ],
+  "PT-0009": "not_a_discharge_candidate",
+  "PT-0010": [
+    {
+      "type": "missing_follow_up",
+      "severity": "low",
+      "evidence_ref": "Addiction medicine",
+      "description": "Addiction medicine referral requested but not scheduled."
+    }
+  ]
+}

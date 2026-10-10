@@ -1,0 +1,144 @@
+{
+  "schema_version": "0.1",
+  "patient_id": "PT-0005",
+  "mrn": "MRN-100005",
+  "demographics": {
+    "name": "Linda Okafor",
+    "age": 52,
+    "sex": "F",
+    "preferred_language": "en",
+    "phone": "555-0105",
+    "lives_alone": false
+  },
+  "pcp": {
+    "name": "Dr. Ellen Park",
+    "clinic": "Riverside Family Medicine",
+    "phone": "555-0190"
+  },
+  "encounter": {
+    "encounter_id": "E-5005",
+    "status": "admitted",
+    "bed_id": "4W-05",
+    "admit_at": "2026-10-04T06:00:00",
+    "expected_discharge_date": "2026-10-09",
+    "attending": "Dr. Samuel Reyes",
+    "reason_for_admission": "Cellulitis of right lower leg",
+    "discharged_at": null,
+    "disposition": null,
+    "bed_released_for": null
+  },
+  "triage": null,
+  "clinical_status": {
+    "stability": "stable",
+    "on_iv_therapy": false,
+    "oxygen": "room air",
+    "last_vitals": {
+      "taken_at": "2026-10-09T06:00:00",
+      "hr": 76,
+      "bp": "118/74",
+      "rr": 14,
+      "spo2": 99,
+      "temp_c": 36.7
+    }
+  },
+  "diagnoses": [
+    {
+      "code": "L03.115",
+      "description": "Cellulitis of right lower limb",
+      "role": "principal",
+      "new_this_admission": true
+    }
+  ],
+  "results": [
+    {
+      "result_id": "R-5005-1",
+      "category": "lab",
+      "name": "WBC",
+      "ordered_at": "2026-10-09T05:00:00",
+      "status": "final",
+      "resulted_at": "2026-10-09T05:50:00",
+      "value": "8.4",
+      "unit": "x10^3/uL",
+      "reference_range": "4.0-11.0",
+      "flag": "normal",
+      "summary": null,
+      "recommendation": null,
+      "expected_final_at": null,
+      "ordering_provider": "Dr. Samuel Reyes",
+      "follow_up_owner": null
+    },
+    {
+      "result_id": "R-5005-2",
+      "category": "microbiology",
+      "name": "Blood culture x2",
+      "ordered_at": "2026-10-04T06:30:00",
+      "status": "final",
+      "resulted_at": "2026-10-09T06:30:00",
+      "value": null,
+      "unit": null,
+      "reference_range": null,
+      "flag": null,
+      "summary": "No growth at 5 days. Final.",
+      "recommendation": null,
+      "expected_final_at": null,
+      "ordering_provider": "Dr. Samuel Reyes",
+      "follow_up_owner": null
+    }
+  ],
+  "home_medications": [
+    {
+      "name": "levothyroxine",
+      "dose": "75 mcg",
+      "route": "PO",
+      "frequency": "daily"
+    }
+  ],
+  "inpatient_medications": [
+    {
+      "name": "levothyroxine",
+      "dose": "75 mcg",
+      "route": "PO",
+      "frequency": "daily",
+      "status": "active",
+      "status_reason": null,
+      "start_at": null,
+      "changed_at": null
+    },
+    {
+      "name": "cefazolin",
+      "dose": "2 g",
+      "route": "IV",
+      "frequency": "every 8 hours",
+      "status": "completed",
+      "status_reason": "Switched to oral therapy",
+      "start_at": "2026-10-04T07:00:00",
+      "changed_at": "2026-10-08T17:00:00"
+    },
+    {
+      "name": "cephalexin",
+      "dose": "500 mg",
+      "route": "PO",
+      "frequency": "four times daily",
+      "status": "active",
+      "status_reason": "Complete 7-day total course",
+      "start_at": "2026-10-08T17:00:00",
+      "changed_at": null
+    }
+  ],
+  "follow_up_orders": [
+    {
+      "type": "appointment",
+      "specialty": "Primary care",
+      "with": "Dr. Ellen Park",
+      "reason": "Wound check",
+      "status": "scheduled",
+      "scheduled_for": "2026-10-14T09:00:00"
+    }
+  ],
+  "discharge_draft": {
+    "status": "draft",
+    "author": "Dr. Samuel Reyes",
+    "written_at": "2026-10-09T07:50:00",
+    "text": "52F admitted 10/4 with right lower leg cellulitis, improved on IV cefazolin, transitioned to oral cephalexin 10/8. Erythema receding from marked borders. Blood cultures final, no growth.\n\nDischarge medications:\n- Cephalexin 500 mg PO four times daily through 10/12\n- Levothyroxine 75 mcg PO daily (unchanged)\n\nFollow-up: PCP Dr. Park on 10/14 for wound check."
+  }
+}

@@ -1,0 +1,146 @@
+{
+  "schema_version": "0.1",
+  "patient_id": "PT-0009",
+  "mrn": "MRN-100009",
+  "demographics": {
+    "name": "Fatima Haddad",
+    "age": 70,
+    "sex": "F",
+    "preferred_language": "ar",
+    "phone": "555-0109",
+    "lives_alone": false
+  },
+  "pcp": {
+    "name": "Dr. Chidi Nwosu",
+    "clinic": "Lakeview Internal Medicine",
+    "phone": "555-0191"
+  },
+  "encounter": {
+    "encounter_id": "E-5009",
+    "status": "admitted",
+    "bed_id": "4W-09",
+    "admit_at": "2026-10-08T23:10:00",
+    "expected_discharge_date": "2026-10-13",
+    "attending": "Dr. Samuel Reyes",
+    "reason_for_admission": "COPD with acute exacerbation, hypercapnic respiratory failure",
+    "discharged_at": null,
+    "disposition": null,
+    "bed_released_for": null
+  },
+  "triage": null,
+  "clinical_status": {
+    "stability": "unstable",
+    "on_iv_therapy": true,
+    "oxygen": "BiPAP",
+    "last_vitals": {
+      "taken_at": "2026-10-09T06:00:00",
+      "hr": 108,
+      "bp": "150/92",
+      "rr": 26,
+      "spo2": 89,
+      "temp_c": 37.9
+    }
+  },
+  "diagnoses": [
+    {
+      "code": "J44.1",
+      "description": "COPD with acute exacerbation",
+      "role": "principal",
+      "new_this_admission": false
+    }
+  ],
+  "results": [
+    {
+      "result_id": "R-5009-1",
+      "category": "lab",
+      "name": "Arterial blood gas pCO2",
+      "ordered_at": "2026-10-09T04:00:00",
+      "status": "final",
+      "resulted_at": "2026-10-09T04:15:00",
+      "value": "58",
+      "unit": "mmHg",
+      "reference_range": "35-45",
+      "flag": "high",
+      "summary": null,
+      "recommendation": null,
+      "expected_final_at": null,
+      "ordering_provider": "Dr. Samuel Reyes",
+      "follow_up_owner": null
+    },
+    {
+      "result_id": "R-5009-2",
+      "category": "microbiology",
+      "name": "Sputum culture",
+      "ordered_at": "2026-10-09T00:00:00",
+      "status": "pending",
+      "resulted_at": null,
+      "value": null,
+      "unit": null,
+      "reference_range": null,
+      "flag": null,
+      "summary": null,
+      "recommendation": null,
+      "expected_final_at": "2026-10-11T12:00:00",
+      "ordering_provider": "Dr. Samuel Reyes",
+      "follow_up_owner": null
+    }
+  ],
+  "home_medications": [
+    {
+      "name": "tiotropium",
+      "dose": "18 mcg",
+      "route": "inhaled",
+      "frequency": "daily"
+    },
+    {
+      "name": "albuterol",
+      "dose": "90 mcg/puff, 2 puffs",
+      "route": "inhaled",
+      "frequency": "every 4 hours as needed"
+    }
+  ],
+  "inpatient_medications": [
+    {
+      "name": "methylprednisolone",
+      "dose": "40 mg",
+      "route": "IV",
+      "frequency": "every 8 hours",
+      "status": "active",
+      "status_reason": "COPD exacerbation",
+      "start_at": "2026-10-08T23:30:00",
+      "changed_at": null
+    },
+    {
+      "name": "azithromycin",
+      "dose": "500 mg",
+      "route": "IV",
+      "frequency": "daily",
+      "status": "active",
+      "status_reason": "COPD exacerbation",
+      "start_at": "2026-10-08T23:30:00",
+      "changed_at": null
+    },
+    {
+      "name": "albuterol/ipratropium",
+      "dose": "3 mL",
+      "route": "nebulized",
+      "frequency": "every 4 hours",
+      "status": "active",
+      "status_reason": null,
+      "start_at": "2026-10-08T23:30:00",
+      "changed_at": null
+    },
+    {
+      "name": "tiotropium",
+      "dose": "18 mcg",
+      "route": "inhaled",
+      "frequency": "daily",
+      "status": "held",
+      "status_reason": "Using scheduled ipratropium nebs instead",
+      "start_at": null,
+      "changed_at": "2026-10-08T23:30:00"
+    }
+  ],
+  "follow_up_orders": [],
+  "discharge_draft": null
+}

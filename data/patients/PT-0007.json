@@ -1,0 +1,118 @@
+{
+  "schema_version": "0.1",
+  "patient_id": "PT-0007",
+  "mrn": "MRN-100007",
+  "demographics": {
+    "name": "Sophie Tremblay",
+    "age": 34,
+    "sex": "F",
+    "preferred_language": "fr",
+    "phone": "555-0107",
+    "lives_alone": true
+  },
+  "pcp": {
+    "name": "Dr. Hana Sato",
+    "clinic": "Northgate Primary Care",
+    "phone": "555-0192"
+  },
+  "encounter": {
+    "encounter_id": "E-5007",
+    "status": "admitted",
+    "bed_id": "4W-07",
+    "admit_at": "2026-10-07T19:30:00",
+    "expected_discharge_date": "2026-10-09",
+    "attending": "Dr. Samuel Reyes",
+    "reason_for_admission": "Acute pyelonephritis",
+    "discharged_at": null,
+    "disposition": null,
+    "bed_released_for": null
+  },
+  "triage": null,
+  "clinical_status": {
+    "stability": "stable",
+    "on_iv_therapy": false,
+    "oxygen": "room air",
+    "last_vitals": {
+      "taken_at": "2026-10-09T06:00:00",
+      "hr": 84,
+      "bp": "116/72",
+      "rr": 15,
+      "spo2": 99,
+      "temp_c": 37.2
+    }
+  },
+  "diagnoses": [
+    {
+      "code": "N10",
+      "description": "Acute pyelonephritis",
+      "role": "principal",
+      "new_this_admission": true
+    }
+  ],
+  "results": [
+    {
+      "result_id": "R-5007-1",
+      "category": "microbiology",
+      "name": "Urine culture",
+      "ordered_at": "2026-10-07T19:45:00",
+      "status": "preliminary",
+      "resulted_at": "2026-10-08T20:00:00",
+      "value": null,
+      "unit": null,
+      "reference_range": null,
+      "flag": null,
+      "summary": ">100,000 CFU/mL gram-negative rods. Identification and susceptibilities pending.",
+      "recommendation": null,
+      "expected_final_at": "2026-10-10T12:00:00",
+      "ordering_provider": "Dr. Samuel Reyes",
+      "follow_up_owner": null
+    },
+    {
+      "result_id": "R-5007-2",
+      "category": "lab",
+      "name": "hCG (urine)",
+      "ordered_at": "2026-10-07T19:45:00",
+      "status": "final",
+      "resulted_at": "2026-10-07T20:30:00",
+      "value": "negative",
+      "unit": null,
+      "reference_range": null,
+      "flag": "normal",
+      "summary": null,
+      "recommendation": null,
+      "expected_final_at": null,
+      "ordering_provider": "Dr. Samuel Reyes",
+      "follow_up_owner": null
+    }
+  ],
+  "home_medications": [],
+  "inpatient_medications": [
+    {
+      "name": "ceftriaxone",
+      "dose": "1 g",
+      "route": "IV",
+      "frequency": "every 24 hours",
+      "status": "completed",
+      "status_reason": "Switched to oral therapy",
+      "start_at": "2026-10-07T20:00:00",
+      "changed_at": "2026-10-09T08:00:00"
+    },
+    {
+      "name": "ciprofloxacin",
+      "dose": "500 mg",
+      "route": "PO",
+      "frequency": "twice daily",
+      "status": "active",
+      "status_reason": "Oral step-down pending susceptibilities",
+      "start_at": "2026-10-09T08:00:00",
+      "changed_at": null
+    }
+  ],
+  "follow_up_orders": [],
+  "discharge_draft": {
+    "status": "draft",
+    "author": "Dr. Samuel Reyes",
+    "written_at": "2026-10-09T08:20:00",
+    "text": "34F with right-sided pyelonephritis. Defervesced on IV ceftriaxone, tolerating PO. Urine culture growing gram-negative rods.\n\nDischarge medications: Ciprofloxacin 500 mg PO twice daily x 7 days.\n\nFollow-up: Follow up urine culture. Return if fever or flank pain worsens."
+  }
+}
